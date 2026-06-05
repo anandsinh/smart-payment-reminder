@@ -11,27 +11,26 @@ export default function AuthCallback() {
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     )
+    const hash = new URLSearchParams(window.location.hash.substring(1))
+    const search = new URLSearchParams(window.location.search)
+    const code = search.get('code')
+    const token = hash.get('access_token')
 
-    const params = new URLSearchParams(window.location.search)
-    const code = params.get('code')
-
-    if (code) {
-      supabase.auth.exchangeCodeForSession(code).then(() => {
-        router.replace('/')
-      })
+    if (token) {
+      router.replace('/')
+    } else if (code) {
+      supabase.auth.exchangeCodeForSession(code)
+        .finally(() => router.replace('/'))
     } else {
       router.replace('/')
     }
   }, [router])
 
   return (
-    <div style={{
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      height: '100vh', background: '#0f0f13', color: '#9090a8',
-      fontFamily: 'DM Sans, sans-serif', fontSize: 13,
-      flexDirection: 'column', gap: 12
-    }}>
-      <div style={{ fontSize: 28 }}>💳</div>
+    <div style={{ display:'flex', alignItems:'center', justifyContent:'center',
+      height:'100vh', background:'#0f0f13', color:'#9090a8',
+      fontFamily:'sans-serif', fontSize:13, flexDirection:'column', gap:12 }}>
+      <div style={{ fontSize:28 }}>💳</div>
       <div>Signing you in…</div>
     </div>
   )
