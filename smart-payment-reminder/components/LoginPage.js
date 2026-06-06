@@ -15,7 +15,7 @@ export default function LoginPage({ supabase }) {
     <div className="login-page">
       <div className="login-card">
         <div className="login-logo">💳</div>
-        <div className="login-title">Smart Payment Reminder</div>
+        <div className="login-title">Smart-Payment-Reminder</div>
         <div className="login-sub">
           Track recurring bills. Get reminded automatically.<br/>
           Never miss a payment again.
