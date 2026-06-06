@@ -1,15 +1,12 @@
 'use client'
-import { createClient } from '../lib/supabase'
 
-export default function LoginPage() {
-  const supabase = createClient()
-
+export default function LoginPage({ supabase }) {
   async function signInWithGoogle() {
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin,
+        redirectTo: `https://smart-payment-reminder.vercel.app/auth/callback`,
+        flowType: 'implicit',
       },
     })
   }
@@ -20,10 +17,9 @@ export default function LoginPage() {
         <div className="login-logo">💳</div>
         <div className="login-title">Smart Payment Reminder</div>
         <div className="login-sub">
-          Track recurring bills. Get reminded automatically.<br />
+          Track recurring bills. Get reminded automatically.<br/>
           Never miss a payment again.
         </div>
-
         <button className="btn-google" onClick={signInWithGoogle}>
           <svg width="18" height="18" viewBox="0 0 48 48">
             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -33,10 +29,7 @@ export default function LoginPage() {
           </svg>
           Continue with Google
         </button>
-
-        <div className="login-footer">
-          Your data is private — only you can see your billers.
-        </div>
+        <div className="login-footer">Your data is private — only you can see your billers.</div>
       </div>
     </div>
   )
